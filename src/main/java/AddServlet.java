@@ -10,19 +10,19 @@ import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet("/addWorker")
+@WebServlet("/addServlet")
 public class AddServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    @Resource(name="jdbc/quercus")
-    private DataSource dataSource;
+    //@Resource(name="jdbc/quercus")
+    //private DataSource dataSource;
 
-    private final String url = "jdbc:postgresql:localhost:5432/postgres";
-    private final String user = "postgres";
-    private final String password = "QuercusBase2020";
+    private Connection conn = null;
+    private PreparedStatement statement = null;
+    private ResultSet resultSet = null;
 
-    public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("workerName");
         String surname = request.getParameter("workerSurname");
         String email = request.getParameter("workerEmail");
@@ -32,16 +32,23 @@ public class AddServlet extends HttpServlet {
         response.setContentType("text/plain");
 
         if(validateEmail(email)==true){
-            Database database = new Database();
             try {
                 Worker worker = new Worker();
                 worker.setWorkerName(name);
                 worker.setWorkerSurname(surname);
                 worker.setAddress(address);
                 worker.setEmail(email);
-                database.connect();
-                database.insertWorkerData(worker,DriverManager.getConnection(url, user, password));
-                database.disconnect();
+                conn = ConnectionManager.getConnection();
+                statement = conn.prepareStatement("INSERT INTO workers " +
+                        "("+ " worker_name," + " worker_surname," + " address," + " email" + ")" + " VALUES " +
+                        "(" + "?,?,?,?)");
+                statement.setString(1,worker.getWorkerName());
+                statement.setString(2,worker.getWorkerSurname());
+                statement.setString(3,worker.getAddress());
+                statement.setString(4,worker.getEmail());
+                statement.executeUpdate();
+                statement.close();
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }

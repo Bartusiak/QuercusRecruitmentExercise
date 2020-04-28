@@ -13,7 +13,7 @@
 <body>
 <h>Dane do wprowadzenia:</h>
 <br><br>
-<form action="addWorker" method="GET">
+<form action="addServlet" method="GET">
     <input type="text" name="workerName" placeholder="Imię pracownika..." required/>
     <br><br>
     <input type="text" name="workerSurname" placeholder="Nazwisko pracownika..." required/>
