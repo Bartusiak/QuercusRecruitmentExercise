@@ -11,18 +11,15 @@
     <title>Zadanie rekrutacyjne - dodaj pracownika</title>
 </head>
 <body>
-<h>Dane do wprowadzenia:</h>
-<br><br>
-<form action="addServlet" method="GET">
-    <input type="text" name="workerName" placeholder="Imię pracownika..." required/>
+    <a href="add-worker.jsp">Dodaj pracownika</a>
     <br><br>
-    <input type="text" name="workerSurname" placeholder="Nazwisko pracownika..." required/>
+    <a href="worker-list.jsp">Lista pracowników</a>
     <br><br>
-    <input type="text" name="workerAddress" placeholder="Adres pracownika..." required/>
-    <br><br>
-    <input type="text" name="workerEmail" placeholder="Adres email pracownika..." required/>
-    <br><br>
-    <input type="submit">
-</form>
+    <%
+        if(session.getAttribute("message")!=null) {
+            out.println(session.getAttribute("message"));
+            session.removeAttribute("message");
+        }
+    %>
 </body>
 </html>

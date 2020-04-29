@@ -12,6 +12,43 @@
         <servlet-name>add-worker</servlet-name>
         <url-pattern>/view/addServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>worker-list</servlet-name>
+        <servlet-class>WorkerList</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>worker-list</servlet-name>
+        <url-pattern>/view/workerList</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>edit-worker</servlet-name>
+        <servlet-class>EditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>edit-worker</servlet-name>
+        <url-pattern>/view/editServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>set-worker</servlet-name>
+        <servlet-class>SetServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>set-worker</servlet-name>
+        <url-pattern>/view/setServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>delete-servlet</servlet-name>
+        <servlet-class>DeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>delete-servlet</servlet-name>
+        <url-pattern>/view/deleteServlet</url-pattern>
+    </servlet-mapping>
+
     <resource-ref>
         <description>Student Tracker Datasource</description>
         <res-ref-name>jdbc/quercus</res-ref-name>

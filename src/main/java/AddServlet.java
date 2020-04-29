@@ -1,8 +1,12 @@
 import javax.annotation.Resource;
+import javax.faces.annotation.RequestMap;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +24,6 @@ public class AddServlet extends HttpServlet {
 
     private Connection conn = null;
     private PreparedStatement statement = null;
-    private ResultSet resultSet = null;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("workerName");
@@ -30,6 +33,8 @@ public class AddServlet extends HttpServlet {
 
         PrintWriter output = response.getWriter();
         response.setContentType("text/plain");
+
+        HttpSession session = request.getSession(false);
 
         if(validateEmail(email)==true){
             try {
@@ -48,14 +53,18 @@ public class AddServlet extends HttpServlet {
                 statement.setString(4,worker.getEmail());
                 statement.executeUpdate();
                 statement.close();
+                session.setAttribute("message","Pracownik dodany do bazy danych");
+                response.sendRedirect("/recruitment_test/view/home.jsp");
 
+                //response.sendRedirect("/recruitment_test/view/home.jsp");
             } catch (SQLException e) {
                 e.printStackTrace();
+            }finally {
+                output.close();
             }
-            output.println("Pracownik: " + name + " " + surname + " " + email + " " + address);
         }
         else{
-            output.println("Wprowadzono niepoprawny email");
+            output.println("Wprowadzono niepoprawny email (cofnij).");
         }
 
     }
